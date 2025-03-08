@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc 7 nụ 8/3 vui vẻ</title>
+    <style>
+        body {
+            background-color: #FFC0CB;
+            color: white;
+            text-align: center;
+            font-size: 2em;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .heart-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+            width: 200px;
+            height: 200px;
+            animation: pulse 1s infinite alternate;
+            cursor: pointer;
+        }
+        .heart-shape {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transform: rotate(-45deg);
+            top: 50px;
+            left: 50px;
+            box-shadow: -10px 10px 50px rgba(255, 0, 0, 0.5);
+        }
+        .heart-shape::before,
+        .heart-shape::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            border-radius: 50%;
+        }
+        .heart-shape::before {
+            top: -50px;
+            left: 0;
+        }
+        .heart-shape::after {
+            left: 50px;
+            top: 0;
+        }
+        .message {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.6em;
+            text-align: center;
+            width: 140px;
+            font-weight: bold;
+        }
+        .floating-heart {
+            position: absolute;
+            color: red;
+            font-size: calc(12px + 12 * random());
+            animation: float 1s infinite ease-in-out;
+        }
+        .exploding-heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: explode 0.6s ease-out;
+        }
+        .letter {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            text-align: center;
+            font-size: 1em;
+            width: 300px;
+            border: 5px solid #8B4513; /* Thêm viền giống sổ tay */
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+        }
+        .letter button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: red;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-400px); opacity: 0; }
+        }
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1.5); }
+            100% { transform: translate(-50%, -50%) scale(1.8); }
+        }
+        @keyframes explode {
+            0% { transform: scale(1) translate(0, 0); opacity: 1; }
+            100% { transform: scale(1.2) translate(var(--x, 0px), var(--y, 0px)); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container" onclick="showLetter(); explodeHearts(event)">
+        <div class="heart-shape"></div>
+        <div class="message">Chúc 7 nụ 8/3 vui vẻ</div>
+    </div>
+    <div class="letter" id="letter">
+        <button onclick="closeLetter()">×</button>
+        <p>Chúc mấy mom có một ngày 8/3 thật nhiều niềm vui, hạnh phúc và tràn ngập yêu thương! Hãy luôn rạng rỡ và tỏa sáng như những bông hoa đẹp nhất nhé! ❤️🌸</p>
+    </div>
+    <script>
+        function createFloatingHeart() {
+            const heart = document.createElement("div");
+            heart.className = "floating-heart";
+            heart.innerHTML = "❤️";
+            document.body.appendChild(heart);
+            
+            const startX = Math.random() * window.innerWidth;
+            const size = 12 + Math.random() * 24;
+            heart.style.left = `${startX}px`;
+            heart.style.top = `${window.innerHeight}px`;
+            heart.style.fontSize = `${size}px`;
+            
+            heart.animate([
+                { transform: `translateY(0)`, opacity: 1 },
+                { transform: `translateY(-400px)`, opacity: 0 }
+            ], {
+                duration: 1000 + Math.random() * 1000,
+                easing: "ease-in-out",
+                iterations: 1
+            });
+            
+            setTimeout(() => heart.remove(), 2000);
+        }
+        setInterval(createFloatingHeart, 50);
+
+        function explodeHearts(event) {
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement("div");
+                heart.className = "exploding-heart";
+                heart.innerHTML = "❤️";
+                document.body.appendChild(heart);
+                
+                const xOffset = (Math.random() - 0.5) * 400;
+                const yOffset = (Math.random() - 0.5) * 400;
+                
+                heart.style.left = `${event.clientX}px`;
+                heart.style.top = `${event.clientY}px`;
+                heart.style.setProperty('--x', `${xOffset}px`);
+                heart.style.setProperty('--y', `${yOffset}px`);
+                
+                setTimeout(() => heart.remove(), 600);
+            }
+        }
+
+        function showLetter() {
+            document.getElementById("letter").style.display = "block";
+        }
+
+        function closeLetter() {
+            document.getElementById("letter").style.display = "none";
+        }
+    </script>
+</body>
+</html>
